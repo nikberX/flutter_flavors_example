@@ -1,0 +1,54 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_flavors_example (production)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/app/targets/production/main.dart",
+            "args": ["--flavor=production"]
+        },
+        {
+            "name": "flutter_flavors_example (production) (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/app/targets/production/main.dart",
+            "args": ["--flavor=production"]
+        },
+        {
+            "name": "flutter_flavors_example (production) (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/app/targets/beta/main.dart",
+            "args": ["--flavor=production"]
+        },
+        {
+            "name": "flutter_flavors_example (beta)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/app/targets/beta/main.dart",
+            "args": ["--flavor=beta"]
+        },
+        {
+            "name": "flutter_flavors_example (beta) (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/app/targets/beta/main.dart",
+            "args": ["--flavor=beta"]
+        },
+        {
+            "name": "flutter_flavors_example (beta) (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/app/targets/beta/main.dart",
+            "args": ["--flavor=beta"]
+        }
+    ]
+}
