@@ -12,7 +12,7 @@ supported targets:
 + lib/app/targets/production/main.dart
 + lib/app/targets/beta/main.dart
     
-supported flavors:
+supported flavors: 
 
 + production
 + beta

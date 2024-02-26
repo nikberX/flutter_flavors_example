@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flavors_example/app/app_configuration.dart';
-import 'package:flutter_flavors_example/app/targets/beta/beta_app_config.dart';
 import 'package:flutter_flavors_example/bug_report/bug_report.dart';
 import 'package:flutter_flavors_example/puzzle/puzzle.dart';
+
+class UnknownAppConfig implements AppConfiguration {
+  const UnknownAppConfig();
+
+  @override
+  bool get bugReportEnabled => true;
+
+  @override
+  String get flavor => 'lights-out';
+}
 
 class LightsOutApp extends StatelessWidget {
   final AppConfiguration appConfig;
 
-  const LightsOutApp({super.key, this.appConfig = const BetaAppConfig()});
+  const LightsOutApp({super.key, this.appConfig = const UnknownAppConfig()});
 
   @override
   Widget build(BuildContext context) {
