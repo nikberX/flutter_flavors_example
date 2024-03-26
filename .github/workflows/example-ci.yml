@@ -6,3 +6,4 @@ jobs:
         timeout-minutes: 10
         steps:
             - run: echo "hello"
+            - run: flutter analyze .
