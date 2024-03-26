@@ -1,9 +1,39 @@
-name: "Example-ci"
+name: Example-ci
 on: [push]
-jobs:
-    example-job:
-        runs-on: ubuntu-latest
-        timeout-minutes: 10
-        steps:
-            - run: echo "hello"
-            - run: flutter analyze .
+jobs: 
+  flutter-analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter analyze .
+      - run: dart format --set-if-changed .
+
+  flutter-test:
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      steps:
+        - uses: actions/checkout@v4
+        - name: Set up Flutter
+          uses: subosito/flutter-action@v2
+          with:
+            channel: stable
+        - run: flutter test
+  
+  build-android:
+    needs: [flutter-test, flutter-analyze]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build apk
+  
+      

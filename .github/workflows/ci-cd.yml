@@ -1,90 +1,91 @@
-name: 'Example ci/cd'
-on:   # e.g. on: [push, workflow_dispatch]
-  pull_request:
-  push:
-  workflow_dispatch:
-# on:
+# name: 'Example ci/cd'
+# on:   # e.g. on: [push, workflow_dispatch]
+#   pull_request:
 #   push:
-#     branches:
-#       - main
-#       - 'releases/**'
-#     branches-ignore:    
-#       - 'releases/**-alpha'
-jobs:
-  analyze-flutter-project:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter analyze .
-      - run: dart format --set-exit-if-changed .
+#   workflow_dispatch:
+# # on:
+# #   push:
+# #     branches:
+# #       - main
+# #       - 'releases/**'
+# #     branches-ignore:    
+# #       - 'releases/**-alpha'
+# jobs:
+#   analyze-flutter-project:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter pub get
+#       - run: flutter analyze .
+#       - run: dart format --set-exit-if-changed .
       
-  run-tests:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps: 
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter test
+#   run-tests:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     needs: [analyze-flutter-project]
+#     steps: 
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter pub get
+#       - run: flutter test
 
-  build-android:
-    needs: [run-tests, analyze-flutter-project]
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps: 
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk
+#   build-android:
+#     needs: [run-tests, analyze-flutter-project]
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     steps: 
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter pub get
+#       - run: flutter build apk
 
-  build-ios:
-    needs: [run-tests, analyze-flutter-project]
-    runs-on: macos-latest
-    timeout-minutes: 10
-    steps: 
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build ipa --no-codesign
+#   build-ios:
+#     needs: [run-tests, analyze-flutter-project]
+#     runs-on: macos-latest
+#     timeout-minutes: 10
+#     steps: 
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter pub get
+#       - run: flutter build ipa --no-codesign
 
-  build-android-flavors:
-    needs: [run-tests, analyze-flutter-project]
-    strategy:
-      matrix:
-        flavor: [production, beta]
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps: 
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk --flavor=${{ matrix.flavor }} --target=lib/app/targets/${{ matrix.flavor }}/main.dart
+#   build-android-flavors:
+#     needs: [run-tests, analyze-flutter-project]
+#     strategy:
+#       matrix:
+#         flavor: [production, beta]
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     steps: 
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter pub get
+#       - run: flutter build apk --flavor=${{ matrix.flavor }} --target=lib/app/targets/${{ matrix.flavor }}/main.dart
 
-  build-android-release:
-    needs: run-tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps: 
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter build apk --flavor=production --target=lib/app/targets/production/main.dart
-      - name: "Upload apk artifacts"
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-production-release.apk
+#   build-android-release:
+#     needs: run-tests
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     steps: 
+#       - uses: actions/checkout@v4
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - run: flutter build apk --flavor=production --target=lib/app/targets/production/main.dart
+#       - name: "Upload apk artifacts"
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: release-apk
+#           path: build/app/outputs/flutter-apk/app-production-release.apk
