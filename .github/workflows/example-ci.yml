@@ -6,4 +6,7 @@ jobs:
         timeout-minutes: 10
         steps:
             - run: echo "hello"
+            - uses: subosito/flutter-action@v2
+              with:
+                channel: 'stable'
             - run: flutter analyze .
