@@ -34,6 +34,20 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      - run: flutter build apk
+      - run: flutter build apk --target=lib/app/targets/production/main.dart --flavor=production
+
+  build-ios:
+    needs: [flutter-test, flutter-analyze]
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build ipa --no-codesign --target=lib/app/targets/production/main.dart --flavor=production
+
+  
   
       
